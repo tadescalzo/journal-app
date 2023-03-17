@@ -1,7 +1,7 @@
 import { AuthLayout } from "../layout/AuthLayout"
 import Typography from '@mui/material/Typography'
-import {Grid, TextField, Button} from '@mui/material'
-import { Link, Link as RouterLink } from 'react-router-dom'
+import {Grid, TextField,Link, Button} from '@mui/material'
+import {  Link as RouterLink } from 'react-router-dom'
 
 export const RegisterPage = () => {
   return (

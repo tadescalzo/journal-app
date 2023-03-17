@@ -1,6 +1,8 @@
 import Grid from '@mui/material/Grid'
 import {AppBar,Toolbar, IconButton, Typography} from '@mui/material'
 import {LogoutOutlined, MenuOutlined} from '@mui/icons-material'
+import { Link } from 'react-router-dom'
+
 
 
 export const NavBar = ({ drawerWidth = 240 }) => {
@@ -27,7 +29,7 @@ export const NavBar = ({ drawerWidth = 240 }) => {
             alignContent='center'
         >
           <Typography mt={0.5} variant='h6' noWrap component='div'>Journal App</Typography>
-          <IconButton color='error'>
+          <IconButton component={Link}  color='error'>
             <LogoutOutlined/>
           </IconButton>
         </Grid>
