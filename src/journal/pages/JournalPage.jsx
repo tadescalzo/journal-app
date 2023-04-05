@@ -10,7 +10,7 @@ export const JournalPage = () => {
     <>
     <JournalLayout>
 
-      <NothingSelectedView />
+      {/* <NothingSelectedView /> */}
 
       <NoteView />
 
