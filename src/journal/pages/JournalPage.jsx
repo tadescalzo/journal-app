@@ -1,6 +1,5 @@
 import { JournalLayout } from "../layout/JournalLayout"
 import { NoteView, NothingSelectedView } from "../views"
-import IconButton from '@mui/material/IconButton'
 import { AddOutlined } from "@mui/icons-material"
 import { Fab } from "@mui/material"
 
