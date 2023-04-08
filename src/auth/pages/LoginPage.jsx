@@ -5,6 +5,7 @@ import {AuthLayout} from '../layout/AuthLayout'
 import { useForm } from '../../hooks/useForm'
 import { useSelector, useDispatch } from 'react-redux'
 import {checkingAuth,startGoogleSignIn} from '../../store/auth'
+import { useMemo } from 'react'
 
 
 
@@ -13,6 +14,10 @@ export const LoginPage = () => {
 
 const {status} = useSelector((state)=>state.auth)
 const dispatch = useDispatch()
+
+const isAuthenticated = useMemo(()=>status ==='checking',[status])
+
+console.log(isAuthenticated)
 
 const {email, password, onInputChange,formState} = useForm({
   email: 'nacho@gmail.com',
@@ -74,16 +79,15 @@ const onGoogleSignIn=()=>{
           {/* Login/Google btns */}
           <Grid container spacing={2} sx={{mb:2,mt:1}}>
             <Grid item xs={12} sm={6} >
-              <Button type='submit' variant="contained" fullWidth>
+              <Button disabled={isAuthenticated} type='submit' variant="contained" fullWidth>
                 Login
               </Button>
             </Grid>
             <Grid item xs={12} sm={6} >
-              <Button onClick={onGoogleSignIn} variant="contained" fullWidth>
+              <Button disabled={isAuthenticated} onClick={onGoogleSignIn} variant="contained" fullWidth>
                 <Google/>
                   <Typography sx={{ml:1}}>Google</Typography>
               </Button>
-              <h1>{status} </h1>
             </Grid>
           </Grid>
           <Grid 
