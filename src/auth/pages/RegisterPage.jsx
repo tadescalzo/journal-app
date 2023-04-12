@@ -3,6 +3,9 @@ import Typography from '@mui/material/Typography'
 import {Grid, TextField,Link, Button} from '@mui/material'
 import {  Link as RouterLink } from 'react-router-dom'
 import { useForm } from "../../hooks/useForm"
+import { useState } from "react"
+import { startCreatingUserWithEmailPassword } from "../../store/auth/thunks"
+import { useDispatch } from "react-redux"
 
 const formData = {
   email: '',
@@ -18,6 +21,8 @@ const formValidations = {
 
 export const RegisterPage = () => {
 
+  const [formSubmited, setFormSubmited] = useState(false)
+  const dispatch = useDispatch()
   const {formState,displayName,email, password, onInputChange, 
         isFormValid,emailValid,displayNameValid,passwordValid
   } = useForm(formData, formValidations)
@@ -25,11 +30,16 @@ export const RegisterPage = () => {
 
   const onSubmit =(event)=>{
     event.preventDefault()
+
+    setFormSubmited(true)
+
+    if(!isFormValid) return
+    dispatch(startCreatingUserWithEmailPassword(formState))
+    console.log(formState)
   }
 
   return (
     <AuthLayout title="Register">
-      <h1> {isFormValid ? 'Valid' : 'Not valid'} </h1>
       <form onSubmit={onSubmit}>
         <Grid 
           container
@@ -48,6 +58,8 @@ export const RegisterPage = () => {
               name="displayName"
               value={displayName}
               onChange={onInputChange}
+              error={!!displayNameValid && formSubmited}
+              helperText={displayNameValid}
               fullWidth
             />
           </Grid>
@@ -64,6 +76,8 @@ export const RegisterPage = () => {
               name="email"
               value={email}
               onChange={onInputChange}
+              error={!!emailValid && formSubmited}
+              helperText={emailValid}
               fullWidth
             />
           </Grid>
@@ -80,6 +94,8 @@ export const RegisterPage = () => {
               name="password"
               value={password}
               onChange={onInputChange}
+              error={!!passwordValid && formSubmited}
+              helperText={passwordValid}
               fullWidth
             />
           </Grid>
