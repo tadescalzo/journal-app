@@ -1,11 +1,11 @@
 import { AuthLayout } from "../layout/AuthLayout"
 import Typography from '@mui/material/Typography'
-import {Grid, TextField,Link, Button} from '@mui/material'
+import {Grid, TextField,Link, Button, Alert} from '@mui/material'
 import {  Link as RouterLink } from 'react-router-dom'
 import { useForm } from "../../hooks/useForm"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { startCreatingUserWithEmailPassword } from "../../store/auth/thunks"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 const formData = {
   email: '',
@@ -21,21 +21,32 @@ const formValidations = {
 
 export const RegisterPage = () => {
 
-  const [formSubmited, setFormSubmited] = useState(false)
+  const {status, errorMessage} = useSelector(state=> state.auth )
+
   const dispatch = useDispatch()
+
+  const [formSubmited, setFormSubmited] = useState(false)
   const {formState,displayName,email, password, onInputChange, 
         isFormValid,emailValid,displayNameValid,passwordValid
   } = useForm(formData, formValidations)
 
+  const isCheckingAuthentication = useMemo(()=> status === 'checking' ,[status])
+
 
   const onSubmit =(event)=>{
+
     event.preventDefault()
 
     setFormSubmited(true)
 
+    setTimeout(()=>{
+      console.log(!!errorMessage)
+    },5000)
+
     if(!isFormValid) return
     dispatch(startCreatingUserWithEmailPassword(formState))
     console.log(formState)
+    
   }
 
   return (
@@ -101,12 +112,29 @@ export const RegisterPage = () => {
           </Grid>
           {/* Login/Google btns */}
           <Grid container spacing={2} sx={{mb:2,mt:1}}>
+
+            <Grid item 
+              xs={12} 
+              sm={6} 
+              display={ !!errorMessage ? '' : 'none' }
+              >
+              <Alert severity="error">
+                {errorMessage}
+              </Alert>
+            </Grid>
+
             <Grid item 
               xs={12} sm={6} >
-              <Button type="submit" variant="contained" fullWidth>
+              <Button 
+                disabled = {isCheckingAuthentication}
+                type="submit" 
+                variant="contained" 
+                fullWidth
+              >
                 Registrar
               </Button>
             </Grid>
+
             <Grid 
               container 
               justifyContent='end'
