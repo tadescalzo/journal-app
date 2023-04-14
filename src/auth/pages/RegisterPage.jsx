@@ -39,19 +39,16 @@ export const RegisterPage = () => {
 
     setFormSubmited(true)
 
-    setTimeout(()=>{
-      console.log(!!errorMessage)
-    },5000)
-
     if(!isFormValid) return
+
     dispatch(startCreatingUserWithEmailPassword(formState))
-    console.log(formState)
+
     
   }
 
   return (
     <AuthLayout title="Register">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className='animate__animated animate__fadeIn animate__faster'>
         <Grid 
           container
         >
@@ -114,9 +111,8 @@ export const RegisterPage = () => {
           <Grid container spacing={2} sx={{mb:2,mt:1}}>
 
             <Grid item 
-              xs={12} 
-              sm={6} 
-              display={ !!errorMessage ? '' : 'none' }
+              xs={12}  
+              display={ !!errorMessage && formSubmited ? '' : 'none' }
               >
               <Alert severity="error">
                 {errorMessage}

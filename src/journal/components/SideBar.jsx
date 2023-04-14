@@ -2,9 +2,13 @@ import Grid from '@mui/material/Grid'
 import { TurnedInNot } from "@mui/icons-material"
 import { Box, Drawer, Toolbar, Divider, List, ListItem, ListItemButton,ListItemIcon, ListItemText } from "@mui/material"
 import Typography from '@mui/material/Typography'
+import { useSelector } from 'react-redux'
 
 
 export const SideBar = ({drawerWidth = 240}) => {
+
+  const {displayName} = useSelector(state=>state.auth)
+
   return (
     <Box 
         component='nav'
@@ -20,7 +24,7 @@ export const SideBar = ({drawerWidth = 240}) => {
             }} 
         >
           <Toolbar>
-            <Typography variant="h6" noWrap component='div'>Nacho</Typography>
+            <Typography variant="h6" noWrap component='div'> {displayName} </Typography>
           </Toolbar>
           <Divider/>
           <List>
