@@ -3,35 +3,42 @@ import { createSlice } from '@reduxjs/toolkit';
 export const journalSlice = createSlice({
     name: 'journal',
     initialState: {
-        isSaving: true,
+        isSaving: false,
         savedMessage: '',
         notes: [],
         activeNote: null,
-        /* active:{
-            id: 123,
-            title:'',
-            body: '',
-            date: 1234,
-            imageUrls:[] //https://imagen1.jpg,...
-        } */
     },
     reducers: {
+        savingNewNote:(state)=>{
+            state.isSaving=true;
+            state.savedMessage = '';
+        },
         addNewEmptyNote: (state,{payload})=>{
-            state.title= payload.title;
+            state.notes.push(payload)
+            state.isSaving = false;
+            /* state.title= payload.title;
             state.body = payload.body;
             state.date = payload.date;
+            state.id = payload.id */
         },
-        setActiveNote: (state, action) =>{
-
+        setActiveNote: (state, {payload}) =>{
+            state.activeNote = payload;
+            state.savedMessage = '';
         },
-        setNotes: (state,action) =>{
-
+        setNotes: (state,{payload}) =>{
+            state.notes = payload;
+            state.savedMessage = '';
         },
         setSaving: (state) =>{
-
+            state.isSaving= true;
+            state.savedMessage = '';
         },
-        updateNote: (state,action) =>{
-
+        updateNote: (state,{payload}) =>{
+            state.isSaving = false;
+            state.notes = state.notes.map(note=>{ 
+                return note.id === payload.id ? payload : note
+            });
+            state.savedMessage = `${payload.title}, actualizada correctamente.`;
         },
         deleteNoteById: (state,action) =>{
 
@@ -41,9 +48,10 @@ export const journalSlice = createSlice({
 
 export const {  
     addNewEmptyNote,
+    deleteNoteById,
+    savingNewNote,
     setActiveNote,
     setNotes,
     setSaving,
     updateNote,
-    deleteNoteById, 
 } = journalSlice.actions;

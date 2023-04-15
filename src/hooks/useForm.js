@@ -10,6 +10,11 @@ export const useForm = ( initialForm = {}, formValidations ={} ) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formState])
 
+    useEffect(() => {
+      setFormState(initialForm)
+    }, [initialForm])
+    
+
     const onInputChange = ({ target }) => {
         const { name, value } = target;
         setFormState({
@@ -42,9 +47,9 @@ export const useForm = ( initialForm = {}, formValidations ={} ) => {
 
     return {
         ...formState,
-        formState,
-        onInputChange,
-        isFormValid,
         ...formValidation,
+        formState,
+        isFormValid,
+        onInputChange,
     }
 }
