@@ -82,8 +82,7 @@ export const NoteView = () => {
           ref={fileInputRef}
         />
         
-        {/* https://api.cloudinary.com/v1_1/dy5gzbemx/react-journal/upload */}
-
+  
         <Grid item>
             <Button 
             onClick={onSaveNote}
