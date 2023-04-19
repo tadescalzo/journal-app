@@ -1,11 +1,11 @@
-import { SaveOutlined, UploadOutlined } from "@mui/icons-material"
+import { DeleteOutline, SaveOutlined, UploadOutlined } from "@mui/icons-material"
 import { Button, Grid, Typography, TextField, IconButton } from "@mui/material"
 import { ImageGallery } from "../components"
 import { useDispatch, useSelector } from "react-redux"
 import { useForm } from "../../hooks/useForm"
 import { useEffect, useMemo, useRef } from "react"
 import { setActiveNote } from "../../store/journal/journalSlice"
-import { startSaveNote, startUploadingFiles } from "../../store/journal/thunks"
+import { startDeletingNote, startSaveNote, startUploadingFiles } from "../../store/journal/thunks"
 import Swal from "sweetalert2"
 import 'sweetalert2/dist/sweetalert2.css'
 
@@ -14,7 +14,7 @@ export const NoteView = () => {
 
   const dispatch = useDispatch()
 
-  const {activeNote,savedMessage, isSaving} = useSelector(state=>state.journal)
+  const {activeNote,savedMessage, isSaving, imageUrls} = useSelector(state=>state.journal)
 
   const {body,title,date,onInputChange,formState} = useForm(activeNote)
 
@@ -47,6 +47,11 @@ export const NoteView = () => {
 
     console.log('subiendo archivos')
     dispatch(startUploadingFiles(target.files));
+  }
+
+  const onDelete = () =>{
+    console.log('delete')
+    dispatch(startDeletingNote());
   }
 
   const fileInputRef = useRef()
@@ -93,6 +98,14 @@ export const NoteView = () => {
               Guardar
             </Button>
         </Grid>
+        <Button
+          onClick={onDelete}
+          color="error"
+          disabled={isSaving}
+          >
+            <DeleteOutline/>
+            Borrar
+          </Button>
         </Grid>
         
 
@@ -123,7 +136,10 @@ export const NoteView = () => {
 
         </Grid>
 
-        <ImageGallery />
+        {
+          activeNote.imageUrls.length && <ImageGallery images={activeNote.imageUrls} />
+        }
+       
 
     </Grid>
   )
