@@ -14,7 +14,7 @@ export const NoteView = () => {
 
   const dispatch = useDispatch()
 
-  const {activeNote,savedMessage, isSaving, imageUrls} = useSelector(state=>state.journal)
+  const {activeNote,savedMessage, isSaving} = useSelector(state=>state.journal)
 
   const {body,title,date,onInputChange,formState} = useForm(activeNote)
 
@@ -137,7 +137,7 @@ export const NoteView = () => {
         </Grid>
 
         {
-          activeNote.imageUrls.length && <ImageGallery images={activeNote.imageUrls} />
+          activeNote.imageUrls && <ImageGallery images={activeNote.imageUrls} />
         }
        
 

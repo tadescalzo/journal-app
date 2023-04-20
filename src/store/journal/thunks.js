@@ -16,7 +16,8 @@ export const startNewNote = () =>{
         const newNote = {
             title: '',
             body: '',
-            date: new Date().getTime()
+            date: new Date().getTime(),
+            imageUrls: []
         }
 
         const newDoc = doc( collection( firebaseDB,`/${uid}/journal/notes` ) )
@@ -64,7 +65,7 @@ export const startSaveNote = () =>{
 }
 
 export const startUploadingFiles=(files = [])=>{
-    return async(dispatch)=>{
+    return async(dispatch, getState)=>{
         dispatch( setSaving() )
 
         const fileUploadPromises = []
@@ -74,6 +75,8 @@ export const startUploadingFiles=(files = [])=>{
         }
 
         const photosUrls = await Promise.all(fileUploadPromises)
+        const {activeNote} = getState().journal
+        activeNote.imageUrls.length > 0 ? console.log('no hay nada') : console.log('hay fotos anteriores')
         dispatch( setPhotosToActiveNote(photosUrls) )
     }
 }
